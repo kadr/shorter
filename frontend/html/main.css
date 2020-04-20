@@ -1,0 +1,39 @@
+body {
+  background: slategray;
+}
+.app {
+  text-align: center;
+}
+
+.app .form {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  width: 100%;
+}
+
+.app .form label {
+  font-size: 20px;
+  font-weight: bold;
+}
+.app .form input[type=text] {
+  width: 60%;
+  height: 30px;
+  font-size: 16px;
+  background: cornsilk;
+}
+.app .form button {
+  font-size: 16px;
+  font-weight: bold;
+  margin-left: 10px;
+  border-radius: 5px;
+}
+.app #short {
+  text-align: left;
+    position: absolute;
+    top: 65%;
+    left: 70%;
+    transform: translate(-50%,-50%);
+    width: 100%;
+}
+

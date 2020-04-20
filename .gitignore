@@ -1,0 +1,8 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+frontend/node_modules
+# dependencies
+.idea/
+celerybeat-schedule
+*.pid
+# misc
+.DS_Store

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Сокращатель ссыки</title>
+    <link rel="stylesheet" href="main.css">
+    <script src="https://code.jquery.com/jquery-3.5.0.min.js"
+  integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ="
+  crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
+    <script type="application/javascript" src="main.js"></script>
+    <script src="jquery.cookie.js"></script>
+
+</head>
+<body>
+    <div class="app">
+        <div class="form">
+            <form id="form">
+                <input type="hidden" id="session_id">
+              <label>
+                Введите ссылку: &nbsp;
+                <input type="text" name='url' id='link' />
+              </label>
+
+              <button id="submit">Отправить</button>
+            </form>
+        </div>
+        <div id='short'>
+            <h3>Ваши ссылки:</h3>
+            <ul id="list"></ul>
+        </div>
+    </div>
+</body>
+</html>
+
+<script>
+    let session_id = Math.random().toString(36).substring(2);
+    if ($.cookie('session_id') == 'undefined') {
+        $.cookie('session_id', session_id, { expires: 7 });
+    } else {
+        $('#session_id').val($.cookie('session_id'))
+    }
+</script>

@@ -1,0 +1,68 @@
+version: '3.7'
+services:
+
+  db:
+    image: mariadb
+    restart: always
+    ports:
+      - '3306:3306'
+    environment:
+      MYSQL_DATABASE: 'short_urls'
+      MYSQL_USER: 'root'
+      MYSQL_PASSWORD: '156489'
+      MYSQL_ROOT_PASSWORD: '156489'
+    command: --init-file /short_urls/init.sql
+    volumes:
+        - ~/progects/short_urls/init.sql:/short_urls/init.sql
+
+  redis:
+    image: "redis:alpine"
+    command: redis-server --requirepass 156489
+    ports:
+     - "6379:6379"
+    volumes:
+     - ~/progects/short_urls/redis-data:/var/lib/redis
+     - ~/progects/short_urls/redis-data/redis.conf:/usr/local/etc/redis/redis.conf
+    environment:
+     - REDIS_REPLICATION_MODE=master
+
+  web:
+    build: .
+    command: python /short_urls/manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/short_urls
+    expose:
+      - 8000
+    ports:
+      - 8000:8000
+    depends_on:
+      - db
+      - redis
+
+  nginx:
+    image: nginx:1.13
+    expose:
+      - 8080
+    ports:
+      - 80:8080
+    volumes:
+      - ./frontend/nginx:/etc/nginx/conf.d
+      - ./frontend/html:/home
+    depends_on:
+      - web
+
+  frontend:
+    container_name: react
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    ports:
+      - 9000:3000
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+      - NODE_ENV=development
+    command: npm start
+    stdin_open: true
