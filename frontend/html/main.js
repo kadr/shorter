@@ -1,9 +1,8 @@
 const API_URL = 'http://localhost'
 
 $(document).ready(function (e) {
-    let session = $('#session_id').val()
     $.ajax({
-            url: `${API_URL}/api/url?session=${session}&format=json`,
+            url: `${API_URL}/api/url?format=json`,
             type: "GET",
             dataType: "json",
             success: function (response) {
@@ -25,7 +24,7 @@ $(document).ready(function (e) {
             url: `${API_URL}/api/url/`,
             type: "POST",
             dataType: "json",
-            data: {session:session, full: full_link.val()},
+            data: { full: full_link.val()},
             success: function (response) {
                 var list = $('#list')
                 list.append(`<li><a href="${full_link.val()}" target="_blank">${response.short}</a></li>`)

@@ -26,7 +26,7 @@ class UrlView(APIView):
 
     @permission_classes([AllowAny])
     def get(self, request, pk=None):
-        session = request.query_params.get('session')
+        session = request.session.get('session_id')
         if session is None:
             return Response({'error': 'Session not found'}, status=HTTP_400_BAD_REQUEST)
         user = None
@@ -71,12 +71,15 @@ class UrlView(APIView):
                 return Response({key: result}, status=HTTP_200_OK, headers={'Content-type': 'application/json'})
 
     def post(self, request):
+        data = {}
         log.info('Try to create new url')
         key = 'short'
         message = ''
         status = HTTP_201_CREATED
+        data['full'] = request.data['full']
+        data['session'] = request.session.get('session_id')
         try:
-            serializer = UrlSerializer(data=request.data)
+            serializer = UrlSerializer(data=data)
             if serializer.is_valid(raise_exception=True):
                 url = serializer.save()
                 message = url.short
